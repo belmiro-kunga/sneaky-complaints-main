@@ -1,0 +1,196 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 25% 18%; /* Lightened from 4.9% to 18% */
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 25% 20%; /* Lightened from 4.9% to 20% */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 25% 18%; /* Lightened from 4.9% to 18% */
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 25%; /* Lightened from 17.5% to 25% */
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 25%; /* Lightened from 17.5% to 25% */
+    --muted-foreground: 215 20.2% 75%; /* Lightened from 65.1% to 75% */
+
+    --accent: 217.2 32.6% 25%; /* Lightened from 17.5% to 25% */
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 40%; /* Lightened from 30.6% to 40% */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 25%; /* Lightened from 17.5% to 25% */
+    --input: 217.2 32.6% 25%; /* Lightened from 17.5% to 25% */
+    --ring: 224.3 76.3% 55%; /* Lightened from 48% to 55% */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground transition-colors duration-200;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-foreground;
+  }
+
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+
+  p {
+    @apply text-foreground/90 leading-relaxed;
+  }
+
+  a {
+    @apply text-primary hover:text-primary/80 transition-colors;
+  }
+}
+
+.hero-gradient {
+  @apply bg-gradient-to-r from-primary/80 to-primary/60;
+}
+
+.dark .hero-gradient {
+  @apply bg-gradient-to-r from-primary/70 to-primary/50;
+}
+
+/* Glassmorphism styles */
+.glass {
+  @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl;
+}
+
+.dark .glass {
+  @apply bg-black/30 border-white/10;
+}
+
+/* Card styles with better contrast */
+.card {
+  @apply bg-card text-card-foreground rounded-lg border shadow-sm transition-colors duration-200;
+}
+
+.dark .card {
+  @apply border-border/30;
+}
+
+/* Corporate-style components */
+.corporate-card {
+  @apply bg-white dark:bg-card shadow-md border border-gray-100 dark:border-gray-700 rounded-lg transition-all duration-200 hover:shadow-lg;
+}
+
+.corporate-gradient {
+  @apply bg-gradient-to-r from-blue-500/90 to-blue-600/80;
+}
+
+.dark .corporate-gradient {
+  @apply bg-gradient-to-r from-blue-600/80 to-blue-700/70;
+}
+
+/* Animation effects for better interaction */
+.hover-lift {
+  @apply transition-transform duration-300 hover:-translate-y-1;
+}
+
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-105;
+}
+
+.pulse-on-hover {
+  @apply hover:animate-pulse;
+}
+
+/* Mobile App-like styles */
+.mobile-container {
+  @apply max-w-md mx-auto h-full overflow-hidden;
+}
+
+.page-transition {
+  @apply animate-fade-in;
+}
+
+.touch-action {
+  @apply active:opacity-70 transition-opacity duration-150;
+}
+
+/* Fixed padding for content to account for bottom navigation */
+.has-bottom-nav {
+  @apply pb-16 md:pb-0;
+}
+
+/* Improve text contrast */
+.text-improved-contrast {
+  @apply text-foreground/90 dark:text-foreground/90;
+}
+
+.text-secondary-improved {
+  @apply text-secondary-foreground/90 dark:text-secondary-foreground/90;
+}
+
+/* Corporate dashboard improvements */
+.dashboard-header {
+  @apply bg-white dark:bg-card border-b border-gray-200 dark:border-gray-700 shadow-sm;
+}
+
+.dashboard-card {
+  @apply bg-white dark:bg-card border border-gray-100 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200;
+}
+
+.stat-card {
+  @apply bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4;
+}
+
