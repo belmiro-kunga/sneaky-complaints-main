@@ -1,4 +1,3 @@
-
 import { FooterSection, MenuItem, SiteContent } from './types';
 
 export const defaultFooter: FooterSection = {
@@ -12,30 +11,29 @@ export const defaultFooter: FooterSection = {
   },
   menuGroups: {
     product: [
-      { id: 'features', label: 'Recursos', url: '#features' },
-      { id: 'pricing', label: 'Preços', url: '#pricing' },
-      { id: 'cases', label: 'Casos de Utilização', url: '#' },
-      { id: 'testimonials', label: 'Testemunhos', url: '#' }
+      { id: 'features', label: 'Recursos', url: '/features' },
+      { id: 'pricing', label: 'Preços', url: '/pricing' },
+      { id: 'cases', label: 'Casos de Utilização', url: '/use-cases' },
+      { id: 'testimonials', label: 'Testemunhos', url: '/testimonials' }
     ],
     company: [
-      { id: 'about', label: 'Sobre Nós', url: '#' },
-      { id: 'blog', label: 'Blog', url: '#' },
-      { id: 'careers', label: 'Carreiras', url: '#' },
-      { id: 'contact', label: 'Contacto', url: '#' }
+      { id: 'about', label: 'Sobre Nós', url: '/about' },
+      { id: 'contact', label: 'Contacto', url: '/contact' }
     ],
     legal: [
-      { id: 'terms', label: 'Termos de Serviço', url: '#' },
-      { id: 'privacy', label: 'Política de Privacidade', url: '#' },
-      { id: 'cookies', label: 'Política de Cookies', url: '#' },
-      { id: 'lgpd', label: 'Proteção de Dados', url: '#' }
+      { id: 'terms', label: 'Termos de Serviço', url: '/terms' },
+      { id: 'privacy', label: 'Política de Privacidade', url: '/privacy' },
+      { id: 'cookies', label: 'Política de Cookies', url: '/cookies' },
+      { id: 'lgpd', label: 'Proteção de Dados', url: '/data-protection' }
     ]
   }
 };
 
 export const defaultNavigation: MenuItem[] = [
   { id: 'home', label: 'Início', url: '/' },
+  { id: 'about', label: 'Sobre', url: '/about' },
   { id: 'features', label: 'Recursos', url: '#features' },
-  { id: 'pricing', label: 'Preços', url: '#pricing' },
+  { id: 'pricing', label: 'Preços', url: '/pricing' },
   { id: 'report', label: 'Fazer Denúncia', url: '/report' },
   { id: 'check', label: 'Verificar Estado', url: '/check-status' }
 ];

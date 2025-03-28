@@ -1,118 +1,130 @@
-
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-import { Shield, Menu, X, FileText, User, Home } from "lucide-react";
-import { useIsMobile } from '@/hooks/use-mobile';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Shield, Menu, X, Sun, Moon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useTheme } from '@/context/theme/useTheme';
 import { useContent } from '@/context/content';
-import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
-  const isMobile = useIsMobile();
-  const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const { theme, toggleTheme } = useTheme();
   const { content } = useContent();
+  const { navigation } = content;
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      height: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    },
+    open: {
+      opacity: 1,
+      height: "auto",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
   };
 
-  // Não mostrar a Navbar no dashboard
-  if (location.pathname === '/dashboard') {
-    return null;
-  }
-
   return (
-    <header className="border-b border-border bg-background/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50">
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <motion.div
-            whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-            transition={{ duration: 0.5 }}
-          >
-            <Shield className="h-6 w-6 text-primary" />
-          </motion.div>
+    <nav className="container mx-auto px-4 py-4">
+      <div className="flex items-center justify-between">
+        <Link to="/" className="flex items-center space-x-2">
+          <Shield className="h-6 w-6 text-primary" />
           <span className="text-xl font-bold">DenuncieAqui</span>
         </Link>
-        
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          
-          {isMobile ? (
-            <>
-              <Button variant="ghost" size="icon" onClick={toggleMenu}>
-                {isMenuOpen ? <X /> : <Menu />}
-              </Button>
-              
-              <AnimatePresence>
-                {isMenuOpen && (
-                  <motion.div 
-                    className="absolute top-16 left-0 right-0 bg-background border-b border-border p-4 shadow-lg"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  >
-                    <nav className="flex flex-col space-y-4">
-                      {content.navigation.map((item) => (
-                        <Link 
-                          key={item.id}
-                          to={item.url} 
-                          className="text-sm font-medium hover:text-primary touch-action flex items-center gap-2" 
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {item.url === '/' && <Home size={18} />}
-                          {item.url.includes('report') && <FileText size={18} />}
-                          {item.url.includes('status') && <Shield size={18} />}
-                          {!item.url.includes('report') && !item.url.includes('status') && item.url !== '/' && (
-                            <FileText size={18} />
-                          )}
-                          <span>{item.label}</span>
-                        </Link>
-                      ))}
-                      <div className="pt-2 flex flex-col space-y-2">
-                        <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                          <Button variant="outline" className="w-full flex items-center gap-2">
-                            <User size={18} />
-                            <span>Entrar</span>
-                          </Button>
-                        </Link>
-                        <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                          <Button className="w-full">Registrar Empresa</Button>
-                        </Link>
-                      </div>
-                    </nav>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </>
-          ) : (
-            <>
-              <nav className="hidden md:flex gap-6">
-                {content.navigation.map((item) => (
-                  <Link 
-                    key={item.id} 
-                    to={item.url} 
-                    className="text-sm font-medium hover:text-primary"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-              <div className="hidden md:flex gap-2">
-                <Link to="/login">
-                  <Button variant="outline">Entrar</Button>
-                </Link>
-                <Link to="/register">
-                  <Button>Registrar Empresa</Button>
-                </Link>
-              </div>
-            </>
-          )}
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-8">
+          {navigation.map((item) => (
+            <Link
+              key={item.id}
+              to={item.url}
+              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="hidden md:flex items-center space-x-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="rounded-full"
+          >
+            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/login">Login</Link>
+          </Button>
+          <Button asChild>
+            <Link to="/register">Registar</Link>
+          </Button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="flex items-center space-x-4 md:hidden">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="rounded-full"
+          >
+            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(!isOpen)}
+            className="rounded-full"
+          >
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
         </div>
       </div>
-    </header>
+
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={menuVariants}
+            className="md:hidden"
+          >
+            <div className="pt-4 pb-3 space-y-3">
+              {navigation.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.url}
+                  className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary hover:bg-muted/50 rounded-lg transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <div className="border-t border-border my-4" />
+              <div className="space-y-3 px-3">
+                <Button variant="outline" className="w-full justify-start" asChild>
+                  <Link to="/login" onClick={() => setIsOpen(false)}>Login</Link>
+                </Button>
+                <Button className="w-full justify-start" asChild>
+                  <Link to="/register" onClick={() => setIsOpen(false)}>Registar</Link>
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };
 
